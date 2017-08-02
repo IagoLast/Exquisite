@@ -1,0 +1,20 @@
+{
+  "name": "exquisite",
+  "version": "1.0.0",
+  "description": "Screenshot testing utility",
+  "main": "index.js",
+  "author": "@iagolast",
+  "license": "MIT",
+  "dependencies": {
+    "chrome-launcher": "^0.3.2",
+    "chrome-remote-interface": "^0.24.3",
+    "delay": "^2.0.0",
+    "gm": "^1.23.0",
+    "minimist": "^1.2.0",
+    "mz": "^2.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.3.0",
+    "eslint-config-iagolast": "^1.0.0"
+  }
+}
