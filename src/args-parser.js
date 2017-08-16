@@ -14,8 +14,8 @@ function parseArgs(argv) {
     args.viewportWidth = argv.viewportWidth || 1440;
     // Emulated screen height
     args.viewportHeight = argv.viewportHeight || 900;
-    // Time to wait once the pageLoad event is fired
-    args.delay = argv.delay || 2000;
+    // Path of the reference image
+    args.input = argv.input || 'original.png';
     // Name of the saved screenshot
     args.output = argv.output || 'output.png';
 

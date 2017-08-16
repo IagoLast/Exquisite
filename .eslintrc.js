@@ -1,9 +1,10 @@
 module.exports = {
     "extends": "iagolast",
     "parserOptions": {
-        "ecmaVersion": 8,
+        "ecmaVersion": 6,
     },
     "env": {
-        "node": true
+        "node": true,
+        "es6" : true,
     }
 };

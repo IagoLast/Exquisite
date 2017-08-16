@@ -3,19 +3,13 @@ const gm = require('gm');
 
 /**
  * Compares two images pixel by pixel
- * @param {*} outputFileName 
+ * @param {*} output 
  */
-function compare(outputFileName) {
-    const original = path.resolve(__dirname, '../original.png');
+function compare(output, original) {
     if (!original) {
         throw new Error('Compare function expected a file path pointing to the reference image but received: ', original);
     }
-    const output = path.resolve(__dirname, '../' + outputFileName);
-    const options = {
-        file: path.resolve(__dirname, '../diff.png'),
-        highlightColor: 'yellow',
-        tolerance: 0.00000001
-    };
+    const options = { tolerance: 0.00000001 };
     return new Promise(function (resolve, reject) {
         gm.compare(original, output, options, function (err, isEqual, difference, raw, path1, path2) {
             if (err) {

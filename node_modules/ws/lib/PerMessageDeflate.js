@@ -1,35 +1,45 @@
 'use strict';
 
+const safeBuffer = require('safe-buffer');
 const zlib = require('zlib');
 
-const AVAILABLE_WINDOW_BITS = [8, 9, 10, 11, 12, 13, 14, 15];
-const DEFAULT_WINDOW_BITS = 15;
-const DEFAULT_MEM_LEVEL = 8;
+const bufferUtil = require('./BufferUtil');
+
+const Buffer = safeBuffer.Buffer;
+
 const TRAILER = Buffer.from([0x00, 0x00, 0xff, 0xff]);
 const EMPTY_BLOCK = Buffer.from([0x00]);
 
 /**
- * Per-message Compression Extensions implementation
+ * Per-message Deflate implementation.
  */
 class PerMessageDeflate {
   constructor (options, isServer, maxPayload) {
+    this._maxPayload = maxPayload | 0;
     this._options = options || {};
+    this._threshold = this._options.threshold !== undefined
+      ? this._options.threshold
+      : 1024;
     this._isServer = !!isServer;
-    this._inflate = null;
     this._deflate = null;
+    this._inflate = null;
+
     this.params = null;
-    this._maxPayload = maxPayload || 0;
-    this.threshold = this._options.threshold === undefined ? 1024 : this._options.threshold;
+  }
+
+  static get extensionName () {
+    return 'permessage-deflate';
   }
 
   /**
-   * Create extension parameters offer
+   * Create extension parameters offer.
    *
-   * @api public
+   * @return {Object} Extension parameters
+   * @public
    */
-
   offer () {
-    var params = {};
+    const params = {};
+
     if (this._options.serverNoContextTakeover) {
       params.server_no_context_takeover = true;
     }
@@ -44,13 +54,16 @@ class PerMessageDeflate {
     } else if (this._options.clientMaxWindowBits == null) {
       params.client_max_window_bits = true;
     }
+
     return params;
   }
 
   /**
-   * Accept extension offer
+   * Accept extension offer.
    *
-   * @api public
+   * @param {Array} paramsList Extension parameters
+   * @return {Object} Accepted configuration
+   * @public
    */
   accept (paramsList) {
     paramsList = this.normalizeParams(paramsList);
@@ -67,9 +80,9 @@ class PerMessageDeflate {
   }
 
   /**
-   * Releases all resources used by the extension
+   * Releases all resources used by the extension.
    *
-   * @api public
+   * @public
    */
   cleanup () {
     if (this._inflate) {
@@ -91,37 +104,40 @@ class PerMessageDeflate {
   }
 
   /**
-   * Accept extension offer from client
+   * Accept extension offer from client.
    *
-   * @api private
+   * @param {Array} paramsList Extension parameters
+   * @return {Object} Accepted configuration
+   * @private
    */
-
   acceptAsServer (paramsList) {
-    var accepted = {};
-    var result = paramsList.some((params) => {
-      accepted = {};
-      if (this._options.serverNoContextTakeover === false && params.server_no_context_takeover) {
-        return;
-      }
-      if (this._options.serverMaxWindowBits === false && params.server_max_window_bits) {
-        return;
-      }
-      if (typeof this._options.serverMaxWindowBits === 'number' &&
+    const accepted = {};
+    const result = paramsList.some((params) => {
+      if (
+        (this._options.serverNoContextTakeover === false &&
+          params.server_no_context_takeover) ||
+        (this._options.serverMaxWindowBits === false &&
+          params.server_max_window_bits) ||
+        (typeof this._options.serverMaxWindowBits === 'number' &&
           typeof params.server_max_window_bits === 'number' &&
-          this._options.serverMaxWindowBits > params.server_max_window_bits) {
-        return;
-      }
-      if (typeof this._options.clientMaxWindowBits === 'number' && !params.client_max_window_bits) {
+          this._options.serverMaxWindowBits > params.server_max_window_bits) ||
+        (typeof this._options.clientMaxWindowBits === 'number' &&
+          !params.client_max_window_bits)
+      ) {
         return;
       }
 
-      if (this._options.serverNoContextTakeover || params.server_no_context_takeover) {
+      if (
+        this._options.serverNoContextTakeover ||
+        params.server_no_context_takeover
+      ) {
         accepted.server_no_context_takeover = true;
       }
-      if (this._options.clientNoContextTakeover) {
-        accepted.client_no_context_takeover = true;
-      }
-      if (this._options.clientNoContextTakeover !== false && params.client_no_context_takeover) {
+      if (
+        this._options.clientNoContextTakeover ||
+        (this._options.clientNoContextTakeover !== false &&
+          params.client_no_context_takeover)
+      ) {
         accepted.client_no_context_takeover = true;
       }
       if (typeof this._options.serverMaxWindowBits === 'number') {
@@ -131,56 +147,70 @@ class PerMessageDeflate {
       }
       if (typeof this._options.clientMaxWindowBits === 'number') {
         accepted.client_max_window_bits = this._options.clientMaxWindowBits;
-      } else if (this._options.clientMaxWindowBits !== false && typeof params.client_max_window_bits === 'number') {
+      } else if (
+        this._options.clientMaxWindowBits !== false &&
+        typeof params.client_max_window_bits === 'number'
+      ) {
         accepted.client_max_window_bits = params.client_max_window_bits;
       }
       return true;
     });
 
-    if (!result) {
-      throw new Error(`Doesn't support the offered configuration`);
-    }
+    if (!result) throw new Error("Doesn't support the offered configuration");
 
     return accepted;
   }
 
   /**
-   * Accept extension response from server
+   * Accept extension response from server.
    *
-   * @api privaye
+   * @param {Array} paramsList Extension parameters
+   * @return {Object} Accepted configuration
+   * @private
    */
-
   acceptAsClient (paramsList) {
-    var params = paramsList[0];
+    const params = paramsList[0];
+
     if (this._options.clientNoContextTakeover != null) {
-      if (this._options.clientNoContextTakeover === false && params.client_no_context_takeover) {
+      if (
+        this._options.clientNoContextTakeover === false &&
+        params.client_no_context_takeover
+      ) {
         throw new Error('Invalid value for "client_no_context_takeover"');
       }
     }
     if (this._options.clientMaxWindowBits != null) {
-      if (this._options.clientMaxWindowBits === false && params.client_max_window_bits) {
+      if (
+        this._options.clientMaxWindowBits === false &&
+        params.client_max_window_bits
+      ) {
         throw new Error('Invalid value for "client_max_window_bits"');
       }
-      if (typeof this._options.clientMaxWindowBits === 'number' &&
-          (!params.client_max_window_bits || params.client_max_window_bits > this._options.clientMaxWindowBits)) {
+      if (
+        typeof this._options.clientMaxWindowBits === 'number' &&
+        (!params.client_max_window_bits ||
+          params.client_max_window_bits > this._options.clientMaxWindowBits)
+      ) {
         throw new Error('Invalid value for "client_max_window_bits"');
       }
     }
+
     return params;
   }
 
   /**
-   * Normalize extensions parameters
+   * Normalize extensions parameters.
    *
-   * @api private
+   * @param {Array} paramsList Extension parameters
+   * @return {Array} Normalized extensions parameters
+   * @private
    */
-
   normalizeParams (paramsList) {
     return paramsList.map((params) => {
       Object.keys(params).forEach((key) => {
         var value = params[key];
         if (value.length > 1) {
-          throw new Error('Multiple extension parameters for ' + key);
+          throw new Error(`Multiple extension parameters for ${key}`);
         }
 
         value = value[0];
@@ -197,7 +227,11 @@ class PerMessageDeflate {
           case 'client_max_window_bits':
             if (typeof value === 'string') {
               value = parseInt(value, 10);
-              if (!~AVAILABLE_WINDOW_BITS.indexOf(value)) {
+              if (
+                Number.isNaN(value) ||
+                value < zlib.Z_MIN_WINDOWBITS ||
+                value > zlib.Z_MAX_WINDOWBITS
+              ) {
                 throw new Error(`invalid extension parameter value for ${key} (${value})`);
               }
             }
@@ -226,10 +260,12 @@ class PerMessageDeflate {
     const endpoint = this._isServer ? 'client' : 'server';
 
     if (!this._inflate) {
-      const maxWindowBits = this.params[`${endpoint}_max_window_bits`];
-      this._inflate = zlib.createInflateRaw({
-        windowBits: typeof maxWindowBits === 'number' ? maxWindowBits : DEFAULT_WINDOW_BITS
-      });
+      const key = `${endpoint}_max_window_bits`;
+      const windowBits = typeof this.params[key] !== 'number'
+        ? zlib.Z_DEFAULT_WINDOWBITS
+        : this.params[key];
+
+      this._inflate = zlib.createInflateRaw({ windowBits });
     }
     this._inflate.writeInProgress = true;
 
@@ -261,7 +297,7 @@ class PerMessageDeflate {
       this._inflate.writeInProgress = false;
 
       if (
-        fin && this.params[`${endpoint}_no_context_takeover`] ||
+        (fin && this.params[`${endpoint}_no_context_takeover`]) ||
         this._inflate.pendingClose
       ) {
         this._inflate.close();
@@ -276,46 +312,64 @@ class PerMessageDeflate {
     this._inflate.flush(() => {
       cleanup();
       if (err) callback(err);
-      else callback(null, Buffer.concat(buffers, totalLength));
+      else callback(null, bufferUtil.concat(buffers, totalLength));
     });
   }
 
   /**
-   * Compress message
+   * Compress data.
    *
-   * @api public
+   * @param {Buffer} data Data to compress
+   * @param {Boolean} fin Specifies whether or not this is the last fragment
+   * @param {Function} callback Callback
+   * @public
    */
-
   compress (data, fin, callback) {
     if (!data || data.length === 0) {
-      return callback(null, EMPTY_BLOCK);
+      process.nextTick(callback, null, EMPTY_BLOCK);
+      return;
     }
 
-    var endpoint = this._isServer ? 'server' : 'client';
+    const endpoint = this._isServer ? 'server' : 'client';
 
     if (!this._deflate) {
-      var maxWindowBits = this.params[endpoint + '_max_window_bits'];
+      const key = `${endpoint}_max_window_bits`;
+      const windowBits = typeof this.params[key] !== 'number'
+        ? zlib.Z_DEFAULT_WINDOWBITS
+        : this.params[key];
+
       this._deflate = zlib.createDeflateRaw({
+        memLevel: this._options.memLevel,
         flush: zlib.Z_SYNC_FLUSH,
-        windowBits: typeof maxWindowBits === 'number' ? maxWindowBits : DEFAULT_WINDOW_BITS,
-        memLevel: this._options.memLevel || DEFAULT_MEM_LEVEL
+        windowBits
       });
     }
     this._deflate.writeInProgress = true;
 
+    var totalLength = 0;
     const buffers = [];
 
-    const onData = (data) => buffers.push(data);
+    const onData = (data) => {
+      totalLength += data.length;
+      buffers.push(data);
+    };
+
     const onError = (err) => {
       cleanup();
       callback(err);
     };
+
     const cleanup = () => {
       if (!this._deflate) return;
+
       this._deflate.removeListener('error', onError);
       this._deflate.removeListener('data', onData);
       this._deflate.writeInProgress = false;
-      if ((fin && this.params[endpoint + '_no_context_takeover']) || this._deflate.pendingClose) {
+
+      if (
+        (fin && this.params[`${endpoint}_no_context_takeover`]) ||
+        this._deflate.pendingClose
+      ) {
         this._deflate.close();
         this._deflate = null;
       }
@@ -325,15 +379,11 @@ class PerMessageDeflate {
     this._deflate.write(data);
     this._deflate.flush(zlib.Z_SYNC_FLUSH, () => {
       cleanup();
-      var data = Buffer.concat(buffers);
-      if (fin) {
-        data = data.slice(0, data.length - 4);
-      }
+      var data = bufferUtil.concat(buffers, totalLength);
+      if (fin) data = data.slice(0, data.length - 4);
       callback(null, data);
     });
   }
 }
-
-PerMessageDeflate.extensionName = 'permessage-deflate';
 
 module.exports = PerMessageDeflate;

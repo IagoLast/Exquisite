@@ -6,6 +6,7 @@
 
 'use strict';
 
+const safeBuffer = require('safe-buffer');
 const EventEmitter = require('events');
 const crypto = require('crypto');
 const Ultron = require('ultron');
@@ -14,9 +15,10 @@ const url = require('url');
 
 const PerMessageDeflate = require('./PerMessageDeflate');
 const Extensions = require('./Extensions');
+const constants = require('./Constants');
 const WebSocket = require('./WebSocket');
 
-const GUID = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
+const Buffer = safeBuffer.Buffer;
 
 /**
  * Class representing a WebSocket server.
@@ -45,7 +47,7 @@ class WebSocketServer extends EventEmitter {
 
     options = Object.assign({
       maxPayload: 100 * 1024 * 1024,
-      perMessageDeflate: true,
+      perMessageDeflate: false,
       handleProtocols: null,
       clientTracking: true,
       verifyClient: null,
@@ -83,15 +85,13 @@ class WebSocketServer extends EventEmitter {
       this._ultron.on('error', (err) => this.emit('error', err));
       this._ultron.on('upgrade', (req, socket, head) => {
         this.handleUpgrade(req, socket, head, (client) => {
-          this.emit(`connection${req.url}`, client);
-          this.emit('connection', client);
+          this.emit('connection', client, req);
         });
       });
     }
 
     if (options.clientTracking) this.clients = new Set();
     this.options = options;
-    this.path = options.path;
   }
 
   /**
@@ -153,11 +153,9 @@ class WebSocketServer extends EventEmitter {
     const version = +req.headers['sec-websocket-version'];
 
     if (
-      !this.shouldHandle(req) ||
-      !req.headers.upgrade ||
-      req.headers.upgrade.toLowerCase() !== 'websocket' ||
-      !req.headers['sec-websocket-key'] ||
-      version !== 8 && version !== 13
+      req.method !== 'GET' || req.headers.upgrade.toLowerCase() !== 'websocket' ||
+      !req.headers['sec-websocket-key'] || (version !== 8 && version !== 13) ||
+      !this.shouldHandle(req)
     ) {
       return abortConnection(socket, 400);
     }
@@ -168,7 +166,7 @@ class WebSocketServer extends EventEmitter {
     // Optionally call external protocol selection handler.
     //
     if (this.options.handleProtocols) {
-      protocol = this.options.handleProtocols(protocol);
+      protocol = this.options.handleProtocols(protocol, req);
       if (protocol === false) return abortConnection(socket, 401);
     } else {
       protocol = protocol[0];
@@ -217,7 +215,7 @@ class WebSocketServer extends EventEmitter {
     if (!socket.readable || !socket.writable) return socket.destroy();
 
     const key = crypto.createHash('sha1')
-      .update(req.headers['sec-websocket-key'] + GUID, 'binary')
+      .update(req.headers['sec-websocket-key'] + constants.GUID, 'binary')
       .digest('base64');
 
     const headers = [
@@ -252,11 +250,11 @@ class WebSocketServer extends EventEmitter {
     //
     // Allow external modification/inspection of handshake headers.
     //
-    this.emit('headers', headers);
+    this.emit('headers', headers, req);
 
     socket.write(headers.concat('', '').join('\r\n'));
 
-    const client = new WebSocket([req, socket, head], {
+    const client = new WebSocket([socket, head], null, {
       maxPayload: this.options.maxPayload,
       protocolVersion: version,
       extensions,
