@@ -18,9 +18,9 @@ describe('Image comparing', () => {
         const output = path.resolve(__dirname, 'reference/i1_out.png');
         const url = 'http://example.com/';
         return exquisite.test({ input, output, url }).then(actual => {
-            expect(actual).to.equal(true);
             cloudinary.uploader.upload(input, { public_id: 'reference_1' });
             cloudinary.uploader.upload(output, { public_id: 'output_1' });
+            expect(actual).to.equal(true);
             fs.unlinkSync(output);
         });
     });
