@@ -15,16 +15,16 @@ function compare(output, original) {
                 reject(err);
             }
             // if the images were considered equal, `isEqual` will be true, otherwise, false.
-            // console.log('The images were equal: %s', isEqual);
+            console.log('The images were equal: %s', isEqual);
 
-            // // to see the total equality returned by graphicsmagick we can inspect the `equality` argument.
-            // console.log('Actual difference: %d', difference);
+            // to see the total equality returned by graphicsmagick we can inspect the `equality` argument.
+            console.log('Actual difference: %d', difference);
 
-            // // inspect the raw output
-            // console.log(raw);
+            // inspect the raw output
+            console.log(raw);
 
             // print file paths
-            // console.log(path1, path2);
+            console.log(path1, path2);
 
             return resolve(isEqual);
         });
