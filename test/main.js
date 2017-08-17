@@ -2,13 +2,15 @@ const exquisite = require('../src/exquisite.js');
 const path = require('path');
 const expect = require('chai').expect;
 const fs = require('fs');
-const cloudinary = require('cloudinary');
 
-cloudinary.config({
-    cloud_name: 'iagolast',
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET
-});
+// Use cloudinary to upload screenshots for manual debugging
+
+// const cloudinary = require('cloudinary');
+// cloudinary.config({
+//     cloud_name: 'iagolast',
+//     api_key: process.env.API_KEY,
+//     api_secret: process.env.API_SECRET
+// });
 
 
 
@@ -19,9 +21,9 @@ describe('Image comparing', () => {
         const url = 'https://iago-carto.carto.com/builder/fe05bdc5-af40-4227-9944-ba31e3493728/embed';
         return exquisite.test({ input, output, url }).then(actual => {
             // cloudinary.uploader.upload(input);
-            cloudinary.uploader.upload(output);
-            expect(actual).to.equal(true);
+            // cloudinary.uploader.upload(output);
             fs.unlinkSync(output);
+            expect(actual).to.equal(true);
         });
     });
     it('Should return false when the reference and the url screenshot are different', () => {
