@@ -1,6 +1,6 @@
 # Exquisite
 
-Easy Screenshot testing.
+Easy Screenshot testing!
 
 
 ## Instaling
