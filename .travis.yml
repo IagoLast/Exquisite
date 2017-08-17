@@ -7,4 +7,4 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sudo apt-get -qq update
-  - sudo apt-get install imagemagick --fix-missing
+  - sudo apt-get install imagemagick graphicsmagick --fix-missing
