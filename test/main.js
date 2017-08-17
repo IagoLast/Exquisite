@@ -16,10 +16,10 @@ describe('Image comparing', () => {
     it('Should return true when the reference and the url screenshot are equal', () => {
         const input = path.resolve(__dirname, 'reference/i1.png');
         const output = path.resolve(__dirname, 'reference/i1_out.png');
-        const url = 'http://example.com/';
+        const url = 'https://iago-carto.carto.com/builder/fe05bdc5-af40-4227-9944-ba31e3493728/embed';
         return exquisite.test({ input, output, url }).then(actual => {
-            cloudinary.uploader.upload(input, { public_id: 'reference_1' });
-            cloudinary.uploader.upload(output, { public_id: 'output_1' });
+            // cloudinary.uploader.upload(input);
+            cloudinary.uploader.upload(output);
             expect(actual).to.equal(true);
             fs.unlinkSync(output);
         });
@@ -27,7 +27,7 @@ describe('Image comparing', () => {
     it('Should return false when the reference and the url screenshot are different', () => {
         const input = path.resolve(__dirname, 'reference/i1.png');
         const output = path.resolve(__dirname, 'reference/i2_out.png');
-        const url = 'https://google.es';
+        const url = 'https://team.carto.com/u/iago-carto/builder/e28d1296-838e-11e7-894c-0ef7f98ade21/embed';
         return exquisite.test({ input, output, url }).then(actual => {
             expect(actual).to.equal(false);
             fs.unlinkSync(output);
