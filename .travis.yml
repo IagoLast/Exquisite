@@ -6,5 +6,5 @@ cache: yarn
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-  - apt-get update
-  - apt-get install imagemagick --fix-missing
+  - sudo apt-get -qq update
+  - sudo apt-get install imagemagick --fix-missing
