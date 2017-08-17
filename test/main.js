@@ -5,12 +5,12 @@ const fs = require('fs');
 
 // Use cloudinary to upload screenshots for manual debugging
 
-// const cloudinary = require('cloudinary');
-// cloudinary.config({
-//     cloud_name: 'iagolast',
-//     api_key: process.env.API_KEY,
-//     api_secret: process.env.API_SECRET
-// });
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'iagolast',
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
 
 
 
@@ -20,10 +20,10 @@ describe('Image comparing', () => {
         const output = path.resolve(__dirname, 'reference/i1_out.png');
         const url = 'https://iago-carto.carto.com/builder/fe05bdc5-af40-4227-9944-ba31e3493728/embed';
         return exquisite.test({ input, output, url }).then(actual => {
-            // cloudinary.uploader.upload(input);
-            // cloudinary.uploader.upload(output);
-            fs.unlinkSync(output);
+            cloudinary.uploader.upload(input);
+            cloudinary.uploader.upload(output);
             expect(actual).to.equal(true);
+            fs.unlinkSync(output);
         });
     });
     it('Should return false when the reference and the url screenshot are different', () => {
