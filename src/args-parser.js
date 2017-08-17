@@ -18,6 +18,8 @@ function parseArgs(argv) {
     args.input = argv.input || 'original.png';
     // Name of the saved screenshot
     args.output = argv.output || 'output.png';
+    // Delay in milliseconds since onLoad event to the screenshot.
+    args.delay = argv.delay || 0;
 
     return args;
 }

@@ -12,6 +12,7 @@ async function test(args) {
     const page = await browser.newPage();
     await page.setViewport({ width: args.viewportWidth, height: args.viewportHeight });
     await page.goto(args.url);
+    await page.waitFor(args.delay);
     await page.screenshot({ path: args.output });
     browser.close();
     return Comparer.compare(args.output, args.input);
