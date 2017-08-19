@@ -1,6 +1,5 @@
 # Exquisite
 
-![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)
 ![Build Status](https://travis-ci.org/IagoLast/Exquisite.svg?branch=master)
 ![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)
 
@@ -81,3 +80,6 @@ exquisite.test({ input, output, url, delay }).then(imagesAreEqual => {
 ### CLI
 
     node bin/exquisite.js --url http://www.google.es --input test/reference/i1.png
+
+
+![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)
