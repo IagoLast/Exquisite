@@ -1,4 +1,4 @@
-# Exquisite
+# Exquisite-sst
 
 ![Build Status](https://travis-ci.org/IagoLast/Exquisite.svg?branch=master)
 ![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)
