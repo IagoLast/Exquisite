@@ -2,6 +2,10 @@
 
 Easy Screenshot testing.
 
+## About exquisite
+Screenshot testing is a kind of end-to-end testing, where all the parts of your application are being tested.
+Exsquisite takes a screenshot of your webpage and compares it pixel by pixel against a reference image in a short amount of time.
+
 ## Instaling
 Install the app as a regular node module, using `yarn` or `npm install` you must have graphicsmagick installed on your machine.
 
@@ -58,7 +62,6 @@ exquisite.test({ input, output, url, delay }).then(imagesAreEqual => {
 ```
 
 
-### Usage (CLI)
+### CLI
 
     node bin/exquisite.js --url http://www.google.es --input test/reference/i1.png
-    

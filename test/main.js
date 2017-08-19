@@ -33,8 +33,8 @@ describe('Image comparing', () => {
         const output = path.resolve(__dirname, 'reference/i2_out.png');
         const url = 'https://team.carto.com/u/iago-carto/builder/e28d1296-838e-11e7-894c-0ef7f98ade21/embed';
         return exquisite.test({ input, output, url, delay }).then(actual => {
-            expect(actual).to.equal(false);
             fs.unlinkSync(output);
+            expect(actual).to.equal(false);
         });
     });
 });
