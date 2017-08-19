@@ -59,7 +59,7 @@ The tests are build to run on travis, dont worry if failing on your machine!
 
 ```javascript
 // Require the package
-const exquisite = require('exquisite.js');
+const exquisite = require('exquisite-sst');
 // Wait 2000 ms after the loaded event to take the screenshot
 const delay = 2000; 
 
