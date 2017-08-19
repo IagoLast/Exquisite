@@ -1,5 +1,12 @@
 # Exquisite
 
+[![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+
+[![Build Status](https://travis-ci.org/IagoLast/Exquisite.svg?branch=master)](https://travis-ci.org/IagoLast/Exquisite)
+
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+
+
 Easy Screenshot testing.
 
 Screenshot testing is a kind of end-to-end testing, where all the parts of your application are being tested.
@@ -15,6 +22,7 @@ in these cases, selenium only sees a `canvas` and the only way to know if the co
 
 ![map2](https://raw.githubusercontent.com/IagoLast/Exquisite/master/.images/example_2.png)
 
+Can you spot the differences in those two maps? Exquisite can, (in less than 3 seconds!)
 
 ## Instaling
 Install the app as a regular node module, using `yarn` or `npm install` you must have graphicsmagick installed on your machine.
