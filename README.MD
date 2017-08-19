@@ -2,9 +2,19 @@
 
 Easy Screenshot testing.
 
-## About exquisite
 Screenshot testing is a kind of end-to-end testing, where all the parts of your application are being tested.
 Exsquisite takes a screenshot of your webpage and compares it pixel by pixel against a reference image in a short amount of time.
+
+Screenshot testing is useful in some environments where [snapshot-testing](https://facebook.github.io/jest/docs/snapshot-testing.html) or
+even selenium cannot be used easily.
+
+![map1](https://raw.githubusercontent.com/IagoLast/Exquisite/master/.images/example_1.png)
+
+Think about checking if a map is well painted, where most of the components are fragments of images (tiles) mixed with vector graphics
+in these cases, selenium only sees a `canvas` and the only way to know if the content is correct is the human eye.
+
+![map2](https://raw.githubusercontent.com/IagoLast/Exquisite/master/.images/example_2.png)
+
 
 ## Instaling
 Install the app as a regular node module, using `yarn` or `npm install` you must have graphicsmagick installed on your machine.
