@@ -7,7 +7,7 @@
 Easy Screenshot testing.
 
 Screenshot testing is a kind of end-to-end testing, where all the parts of your application are being tested.
-Exsquisite takes a screenshot of your webpage and compares it pixel by pixel against a reference image in a short amount of time.
+Exquisite takes a screenshot of your webpage and compares it pixel by pixel against a reference image in a short amount of time.
 
 Screenshot testing is useful in some environments where [snapshot-testing](https://facebook.github.io/jest/docs/snapshot-testing.html) or
 even selenium cannot be used easily.
@@ -15,17 +15,19 @@ even selenium cannot be used easily.
 ![map1](https://raw.githubusercontent.com/IagoLast/Exquisite/master/.images/example_1.png)
 
 Think about checking if a map is well painted, where most of the components are fragments of images (tiles) mixed with vector graphics
-in these cases, selenium only sees a `canvas` and the only way to know if the content is correct is the human eye.
+where selenium only sees a `canvas` and the only way to know if the content is correct is the human eye.
 
 ![map2](https://raw.githubusercontent.com/IagoLast/Exquisite/master/.images/example_2.png)
 
-Can you spot the differences in those two maps? Exquisite can, (in less than 3 seconds!)
+Can you spot the differences in those two maps? Exquisite can (in less than 3 seconds!)
 
 ## Instaling
-Install the app as a regular node module, using `yarn` or `npm install` you must have graphicsmagick installed on your machine.
+Install the app as a regular node module, using `yarn` or `npm install`.
+
+Exquisite requires `graphicsmagic` installed on your machine.
 
 ### Graphicsmagick
-Graphicsmagick is the program used to compare the images and it must be installed in order to run exquisite.
+[Graphicsmagick](http://www.graphicsmagick.org/) is the program used to compare the images and it must be installed in order to run exquisite.
 
 Install Graphicsmagick in OSX
 
@@ -36,6 +38,7 @@ Install Graphicsmagick in debian/ubuntu
     sudo apt-get install graphicsmagick --fix-missing
     
 ## Testing
+The tests are build to run on travis, dont worry if failing on your machine!
 
     yarn test
     
@@ -43,9 +46,9 @@ Install Graphicsmagick in debian/ubuntu
 
 Exquisite needs `"node": "^7.6.0"` and `graphicsmagic` installed.
 
-### API
+## API
 
-#### exquisite.test(params)
+### exquisite.test(params)
  - **params.url:** Url to take the screenshot from. Default: `undefined`. Required.
  - **params.input:** Path to the reference image. Default: `original.png`
  - **params.output:** Path where the screenshot is saved. Default: `output.png`
@@ -53,7 +56,7 @@ Exquisite needs `"node": "^7.6.0"` and `graphicsmagic` installed.
  - **params.viewportWidth:** With of the browser screen. Default: `1440`
  - **params.viewportHeight:** Height of the browser screen. Default: `900`
 
-### Example 
+## Example 
 
 ```javascript
 // Require the package
@@ -77,9 +80,6 @@ exquisite.test({ input, output, url, delay }).then(imagesAreEqual => {
 ```
 
 
-### CLI
+## CLI
 
     node bin/exquisite.js --url http://www.google.es --input test/reference/i1.png
-
-
-![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)
