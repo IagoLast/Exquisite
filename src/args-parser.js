@@ -1,6 +1,5 @@
 /**
  * Parse command line arguments.
- * @param {*} argv 
  */
 function parseArgs(argv) {
     let args = {};

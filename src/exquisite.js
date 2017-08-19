@@ -4,7 +4,6 @@ const ArgsParser = require('./args-parser.js');
 
 /**
  * Launch the screenshot process.
- * @param {*} args 
  */
 async function test(args) {
     args = ArgsParser.parseArgs(args);

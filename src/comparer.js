@@ -2,7 +2,6 @@ const gm = require('gm');
 
 /**
  * Compares two images pixel by pixel
- * @param {*} output 
  */
 function compare(output, original) {
     if (!original) {
@@ -10,22 +9,10 @@ function compare(output, original) {
     }
     const options = { tolerance: 0.00000001 };
     return new Promise(function (resolve, reject) {
-        gm.compare(original, output, options, function (err, isEqual, difference, raw, path1, path2) {
+        gm.compare(original, output, options, function onImagesCompared(err, isEqual) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            // // if the images were considered equal, `isEqual` will be true, otherwise, false.
-            // console.log('The images were equal: %s', isEqual);
-
-            // // to see the total equality returned by graphicsmagick we can inspect the `equality` argument.
-            // console.log('Actual difference: %d', difference);
-
-            // // inspect the raw output
-            // console.log(raw);
-
-            // // print file paths
-            // console.log(path1, path2);
-
             return resolve(isEqual);
         });
     });
