@@ -1,10 +1,6 @@
 # Exquisite
 
-![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)
-
-![Build Status](https://travis-ci.org/IagoLast/Exquisite.svg?branch=master)
-
-![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)
+![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)![Build Status](https://travis-ci.org/IagoLast/Exquisite.svg?branch=master)![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)
 
 
 Easy Screenshot testing.
