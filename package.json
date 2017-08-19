@@ -9,7 +9,7 @@
     "chrome"
   ],
   "main": "./src/index.js",
-  "bin": "./src/bin.js",
+  "bin": "./bin/exquisite.js",
   "author": "@iagolast",
   "license": "MIT",
   "engines": {
