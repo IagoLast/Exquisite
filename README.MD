@@ -22,7 +22,7 @@ where selenium only sees a `canvas` and the only way to know if the content is c
 Can you spot the differences in those two maps? Exquisite can (in less than 3 seconds!)
 
 ## Instaling
-Exquisite needs `"node": "^7.6.0"` and `graphicsmagic` installed.
+Exquisite needs `"node": ">7.6.0"` and `graphicsmagic` installed.
 
 Install the app as a regular node module, using `yarn` or `npm install`.
 
