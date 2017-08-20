@@ -114,14 +114,14 @@ Yo can use exquisite from the command line using the same parameters described i
 Add the `--reference` flag to take the reference screenshot.
 
 ```sh
-    # Install exquisite-sst globally
-    npm install -g exquisite-sst
-    # Generate the reference image for google
-    exquisite-sst --reference --url http://www.example.com --output reference.png --delay 200 
-    # Compare the reference image against a new screenshot (true)
-    exquisite-sst --url http://www.example.com --input reference.png --delay 200 
-    # Compare the reference image against a new screenshot (false)
-    exquisite-sst --url http://www.google.com --input reference.png 
+# Install exquisite-sst globally
+npm install -g exquisite-sst
+# Generate the reference image for google
+exquisite-sst --reference --url http://www.example.com --output reference.png --delay 200 
+# Compare the reference image against a new screenshot (true)
+exquisite-sst --url http://www.example.com --input reference.png --delay 200 
+# Compare the reference image against a new screenshot (false)
+exquisite-sst --url http://www.google.com --input reference.png 
 ```
 
 ## Using cloudinary for debugging.
