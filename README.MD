@@ -104,7 +104,7 @@ const delay = 2000;
 const cloudinary = require('cloudinary');
 
 cloudinary.config({
-    cloud_name: 'iagolast',
+    cloud_name: process.env.CLOUD,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET
 });
