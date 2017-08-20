@@ -6,15 +6,44 @@ const ArgsParser = require('./args-parser.js');
  * Launch the screenshot process.
  */
 async function test(args) {
-    args = ArgsParser.parseArgs(args);
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setViewport({ width: args.viewportWidth, height: args.viewportHeight });
-    await page.goto(args.url);
-    await page.waitFor(args.delay);
-    await page.screenshot({ path: args.output });
-    browser.close();
-    return Comparer.compare(args.output, args.input);
+    var browser;
+    try {
+        args = ArgsParser.parseArgs(args);
+        browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.setViewport({ width: args.viewportWidth, height: args.viewportHeight });
+        await page.goto(args.url);
+        await page.waitFor(args.delay);
+        await page.screenshot({ path: args.output });
+        return Comparer.compare(args.output, args.input);
+    } catch (err) {
+        throw Error(err);
+    } finally {
+        browser.close();
+    }
+
 }
 
-module.exports = { test };
+/**
+ * Take screenshot and save it as reference image.
+ */
+async function getReference(args) {
+    var browser;
+    try {
+        args = ArgsParser.parseArgs(args);
+        browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.setViewport({ width: args.viewportWidth, height: args.viewportHeight });
+        await page.goto(args.url);
+        await page.waitFor(args.delay);
+        await page.screenshot({ path: args.output });
+        console.log(`Reference image for ${args.url} saved at: ${args.output}`);
+        return args.output;
+    } catch (err) {
+        throw new Error(err);
+    } finally {
+        browser.close();
+    }
+}
+
+module.exports = { test, getReference };

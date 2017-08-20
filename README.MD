@@ -48,6 +48,8 @@ The tests are build to run on travis, dont worry if failing on your machine!
 ## API
 
 ### exquisite.test(params)
+Compare a screenshot against a reference image.
+
  - **params.url:** Url to take the screenshot from. Default: `undefined`. Required.
  - **params.input:** Path to the reference image. Default: `original.png`
  - **params.output:** Path where the screenshot is saved. Default: `output.png`
@@ -55,7 +57,32 @@ The tests are build to run on travis, dont worry if failing on your machine!
  - **params.viewportWidth:** With of the browser screen. Default: `1440`
  - **params.viewportHeight:** Height of the browser screen. Default: `900`
 
+### exquisite.getReference(params)
+Take a screenshot and save it as a reference image.
+
+ - **params.url:** Url to take the screenshot from. Default: `undefined`. Required.
+ - **params.output:** Path where the screenshot is saved. Default: `output.png`
+ - **params.delay:** Milliseconds to wait between the page-loaded event and the screenshot. Default: `0`
+ - **params.viewportWidth:** With of the browser screen. Default: `1440`
+ - **params.viewportHeight:** Height of the browser screen. Default: `900`
+
 ## Example 
+Get a reference image
+
+```javascript
+const path = require('path');
+// Require the package
+const exquisite = require('../src');
+
+// Path where the reference screenshot will be stored.
+const output = path.resolve(__dirname, 'google.png');
+// Url to take the screenshot from
+const url = 'https://google.com';
+// Get the reference
+exquisite.getReference({ url, output }).then(console.log).catch(console.error);
+```
+
+Compare the screenshot against a reference.
 
 ```javascript
 const path = require('path');
@@ -84,8 +111,16 @@ exquisite.test({ input, output, url, delay }).then(imagesAreEqual => {
 ## CLI
 Yo can use exquisite from the command line using the same parameters described in the [API](https://github.com/IagoLast/exquisite#api)
 
+Add the `--reference` flag to take the reference screenshot.
+
+    # Install exquisite-sst globally
     npm install -g exquisite-sst
-    exquisite-sst --url http://www.google.es --input google.png
+    # Generate the reference image for google
+    exquisite-sst --reference --url http://www.example.com --output reference.png --delay 200 
+    # Compare the reference image against a new screenshot (true)
+    exquisite-sst --url http://www.example.com --input reference.png --delay 200 
+    # Compare the reference image against a new screenshot (false)
+    exquisite-sst --url http://www.google.com --input reference.png 
 
 ## Using cloudinary for debugging.
 
