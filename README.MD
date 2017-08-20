@@ -102,30 +102,28 @@ const delay = 2000;
 
 // Use cloudinary to upload screenshots for manual debugging
 const cloudinary = require('cloudinary');
-
+// Configure cloudinary using env vars to prevent exposing private credentials.
 cloudinary.config({
     cloud_name: process.env.CLOUD,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET
 });
 
-
-
+// Example using mocha
 describe('Image comparing', () => {
     it('Should return true when the reference and the url screenshot are equal', () => {
         const input = path.resolve(__dirname, 'reference/i1.png');
         const output = path.resolve(__dirname, 'reference/i1_out.png');
         const url = 'https://iago-carto.carto.com/builder/fe05bdc5-af40-4227-9944-ba31e3493728/embed';
         return exquisite.test({ input, output, url, delay }).then(result => {
-            // If the result is not the expected, upload the screenshots.
+             // Delete the taken screenshot
+            fs.unlinkSync(output);
+            // If the result is not the expected, upload the screenshots and make the test fail
             if (!result) {
                 cloudinary.uploader.upload(input);
                 cloudinary.uploader.upload(output);
+                throw new Error(`${url}: Screenshot doesn't match!`);
             }
-            // Delete the taken screenshot
-            fs.unlinkSync(output);
-            // Make the test fail
-            throw new Error(`${url}: Screenshot doesn't match!`);
         });
     });
 });
