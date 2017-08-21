@@ -19,7 +19,7 @@ async function test(args) {
     } catch (err) {
         throw Error(err);
     } finally {
-        browser.close();
+        _closeBrowser(browser);
     }
 
 }
@@ -42,6 +42,12 @@ async function getReference(args) {
     } catch (err) {
         throw new Error(err);
     } finally {
+        _closeBrowser(browser);
+    }
+}
+
+function _closeBrowser(browser) {
+    if (browser) {
         browser.close();
     }
 }
