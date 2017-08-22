@@ -4,7 +4,7 @@
 ![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)
 
 
-Easy Screenshot testing.
+Easy Screenshot testing!
 
 Screenshot testing is a kind of end-to-end testing, where all the parts of your application are being tested.
 Exquisite takes a screenshot of your webpage and compares it pixel by pixel against a reference image in a short amount of time.
