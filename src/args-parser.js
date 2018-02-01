@@ -19,8 +19,10 @@ function parseArgs(argv) {
     args.output = argv.output || 'output.png';
     // Delay in milliseconds since onLoad event to the screenshot.
     args.delay = argv.delay || 0;
+    // Headless mode, defaults to false
+    args.headless = argv.headless || false;
 
-    return args;
+    return args;    
 }
 
 

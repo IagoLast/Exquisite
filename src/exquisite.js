@@ -9,7 +9,9 @@ async function test(args) {
     var browser;
     try {
         args = ArgsParser.parseArgs(args);
-        browser = await puppeteer.launch();
+        browser = await puppeteer.launch({
+            headless: args.headless,
+        });
         const page = await browser.newPage();
         await page.setViewport({ width: args.viewportWidth, height: args.viewportHeight });
         await page.goto(args.url);
@@ -31,13 +33,14 @@ async function getReference(args) {
     var browser;
     try {
         args = ArgsParser.parseArgs(args);
-        browser = await puppeteer.launch();
+        browser = await puppeteer.launch({
+            headless: args.headless,
+        });
         const page = await browser.newPage();
         await page.setViewport({ width: args.viewportWidth, height: args.viewportHeight });
         await page.goto(args.url);
         await page.waitFor(args.delay);
         await page.screenshot({ path: args.output });
-        console.log(`Reference image for ${args.url} saved at: ${args.output}`);
         return args.output;
     } catch (err) {
         throw new Error(err);
