@@ -1,20 +1,28 @@
-const gm = require('gm');
+const fs = require('fs');
+const PNG = require('pngjs').PNG;
+const pixelmatch = require('pixelmatch');
 
-/**
- * Compares two images pixel by pixel
- */
 function compare(output, original) {
-    if (!original) {
-        throw new Error('Compare function expected a file path pointing to the reference image but received: ', original);
-    }
-    const options = { tolerance: 0.00000001 };
-    return new Promise(function (resolve, reject) {
-        gm.compare(original, output, options, function onImagesCompared(err, isEqual) {
-            if (err) {
-                return reject(err);
+    return new Promise(resolve => {
+        const img1 = fs.createReadStream(output).pipe(new PNG()).on('parsed', doneReading);
+        const img2 = fs.createReadStream(original).pipe(new PNG()).on('parsed', doneReading);
+
+        let filesRead = 0;
+        function doneReading() {
+            // Wait until both files are read.
+            if (++filesRead < 2) {
+                return;
             }
-            return resolve(isEqual);
-        });
+
+            // Do the visual diff.
+            const diff = new PNG({ width: img1.width, height: img2.height });
+            const numDiffPixels = pixelmatch(img1.data, img2.data, diff.data, img1.width, img1.height, { threshold: 0.1 });
+
+            if (numDiffPixels > 0) {
+                return resolve(false);
+            }
+            resolve(true)
+        }
     });
 }
 

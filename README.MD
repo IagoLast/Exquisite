@@ -22,29 +22,12 @@ where selenium only sees a `canvas` and the only way to know if the content is c
 Can you spot the differences in those two maps? Exquisite can (in less than 3 seconds!)
 
 ## Instaling
-Exquisite needs `"node": ">7.6.0"` and `graphicsmagic` installed.
+Exquisite needs `"node": ">7.6.0"`
 
 Install the app as a regular node module, using `yarn` or `npm install`.
 
-Exquisite requires `graphicsmagic` installed on your machine.
-
-### Graphicsmagick
-[Graphicsmagick](http://www.graphicsmagick.org/) is the program used to compare the images and it must be installed in order to run exquisite.
-
-Install Graphicsmagick in OSX
-
-    brew install graphicsmagick
-
-Install Graphicsmagick in debian/ubuntu
-
-    sudo apt-get install graphicsmagick --fix-missing
+    yarn add exquisite-sst
     
-## Testing
-The tests are build to run on travis, dont worry if failing on your machine!
-
-    yarn test
-    
-
 ## API
 
 ### exquisite.test(params)
@@ -56,6 +39,7 @@ Compare a screenshot against a reference image.
  - **params.delay:** Milliseconds to wait between the page-loaded event and the screenshot. Default: `0`
  - **params.viewportWidth:** With of the browser screen. Default: `1440`
  - **params.viewportHeight:** Height of the browser screen. Default: `900`
+ - **params.headless:** Use a headless browser. Default: `false`
 
 ### exquisite.getReference(params)
 Take a screenshot and save it as a reference image.
@@ -65,6 +49,7 @@ Take a screenshot and save it as a reference image.
  - **params.delay:** Milliseconds to wait between the page-loaded event and the screenshot. Default: `0`
  - **params.viewportWidth:** With of the browser screen. Default: `1440`
  - **params.viewportHeight:** Height of the browser screen. Default: `900`
+ - **params.headless:** Use a headless browser. Default: `false`
 
 ## Example 
 Get a reference image
@@ -166,3 +151,7 @@ describe('Image comparing', () => {
 });
 
 ```
+## Testing
+The tests are build to run on travis, dont worry if failing on your machine!
+
+    yarn test
