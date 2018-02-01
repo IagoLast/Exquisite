@@ -6,15 +6,15 @@
 
 Easy Screenshot testing.
 
-Screenshot testing is a kind of end-to-end testing, where all the parts of your application are being tested.
+Screenshot testing is a kind of end-to-end testing where all the parts of your application are being tested.
 Exquisite takes a screenshot of your webpage and compares it pixel by pixel against a reference image in a short amount of time.
 
 Screenshot testing is useful in some environments where [snapshot-testing](https://facebook.github.io/jest/docs/snapshot-testing.html) or
 even selenium cannot be used easily.
 
 
-Think about checking if a map is well painted, where most of the components are fragments of images (tiles) mixed with vector graphics
-where selenium only sees a `canvas` and the only way to know if the content is correct is the human eye.
+Think about checking if a map is well painted where most of the components are fragments of images (tiles) mixed with vector graphics
+where selenium only sees a `canvasElement`. The only way to know if the content is correct is the human eye.
 
 | expected | actual |
 | --- | --- |
@@ -58,7 +58,7 @@ Get a reference image
 ```javascript
 const path = require('path');
 // Require the package
-const exquisite = require('../src');
+const exquisite = require('exquisite-sst');
 
 // Path where the reference screenshot will be stored.
 const output = path.resolve(__dirname, 'google.png');
@@ -75,7 +75,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Require the package
-const exquisite = require('../src');
+const exquisite = require('exquisite-sst');
 // Wait 2000 ms after the loaded event to take the screenshot
 const delay = 2000;
 // Reference image
@@ -83,7 +83,7 @@ const input = path.resolve(__dirname, 'reference.png');
 // Path where the screenshot will be saved
 const output = path.resolve(__dirname, 'map.png');
 // Url to take the screenshot from
-const url = 'https://iago-carto.carto.com/builder/fe05bdc5-af40-4227-9944-ba31e3493728/embed';
+const url = 'https://google.com';
 // Take the screenshot and compare it against the reference image.
 exquisite.test({ input, output, url, delay }).then(imagesAreEqual => {
     // Delete the screenshot
