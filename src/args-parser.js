@@ -21,8 +21,10 @@ function parseArgs(argv) {
     args.delay = argv.delay || 0;
     // Headless mode, defaults to false
     args.headless = argv.headless || false;
+    // Image diff threshold
+    args.threshold = argv.threshold || 0.1;
 
-    return args;    
+    return args;
 }
 
 

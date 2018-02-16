@@ -41,6 +41,7 @@ Compare a screenshot against a reference image.
  - **params.viewportWidth:** With of the browser screen. Default: `1440`
  - **params.viewportHeight:** Height of the browser screen. Default: `900`
  - **params.headless:** Use a headless browser. Default: `false`
+ - **params.threshold:** Image diff threshold. Default: `0.1`
 
 ### exquisite.getReference(params)
 Take a screenshot and save it as a reference image.

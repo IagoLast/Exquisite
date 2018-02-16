@@ -17,7 +17,7 @@ async function test(args) {
         await page.goto(args.url);
         await page.waitFor(args.delay);
         await page.screenshot({ path: args.output });
-        return Comparer.compare(args.output, args.input);
+        return Comparer.compare(args.output, args.input, args.threshold);
     } catch (err) {
         throw Error(err);
     } finally {

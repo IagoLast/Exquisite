@@ -1,7 +1,7 @@
 module.exports = {
-    "extends": "iagolast",
+    "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": 6,
+        "ecmaVersion": 2017,
     },
     "env": {
         "node": true,
