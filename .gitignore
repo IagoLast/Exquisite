@@ -1,3 +1,4 @@
 node_modules
 *.log
+*_out.png
 .DS_Store
