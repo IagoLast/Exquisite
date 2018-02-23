@@ -20,7 +20,7 @@ describe('Image comparing', () => {
     it('Should return true when the reference and the url screenshot are equal', () => {
         const input = path.resolve(__dirname, 'reference/i1.png');
         const output = path.resolve(__dirname, 'reference/i1_out.png');
-        const url = 'https://team.carto.com/u/iago-carto/builder/b46188b2-8a5b-4816-9662-df832b416866/embed';
+        const url = 'https://team.carto.com/u/iago-carto/builder/544fde69-5bae-4a98-abeb-90114f8d96aa/embed';
         return exquisite.test({ input, output, url, delay, threshold, headless }).then(actual => {
             // cloudinary.uploader.upload(input);
             // cloudinary.uploader.upload(output);
