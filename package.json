@@ -30,6 +30,7 @@
     "mocha": "^3.5.0"
   },
   "scripts": {
-    "test": "mocha --timeout 10000"
+    "test": "mocha test/index.test.js --timeout 15000",
+    "test:acceptance:prepare": "node test/get-references.js "
   }
 }
