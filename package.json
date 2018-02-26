@@ -30,7 +30,8 @@
     "mocha": "^3.5.0"
   },
   "scripts": {
-    "test": "mocha test/index.test.js --timeout 15000",
-    "test:acceptance:prepare": "node test/get-references.js "
+    "lint": "eslint .",
+    "test:acceptance:prepare": "node test/get-references.js ",
+    "test": "mocha test/index.test.js --timeout 15000"
   }
 }
