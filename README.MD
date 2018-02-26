@@ -1,6 +1,6 @@
 # Exquisite-sst
 
-![Build Status](https://travis-ci.org/IagoLast/Exquisite.svg?branch=master)
+[![CircleCI](https://circleci.com/gh/IagoLast/Exquisite/tree/master.svg?style=svg)](https://circleci.com/gh/IagoLast/Exquisite/tree/master)
 ![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)
 
 
