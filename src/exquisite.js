@@ -20,6 +20,9 @@ function test(args) {
     }).then(function () {
         return page.goto(args.url);
     }).then(function () {
+        if (args.waitForFn) {
+            return page.waitForFunction(args.waitForFn);
+        }
         return page.waitFor(args.delay);
     }).then(function () {
         return page.screenshot({ path: args.output });
@@ -50,6 +53,9 @@ function getReference(args) {
     }).then(function () {
         return page.goto(args.url);
     }).then(function () {
+        if (args.waitForFn) {
+            return page.waitForFunction(args.waitForFn);
+        }
         return page.waitFor(args.delay);
     }).then(function () {
         return page.screenshot({ path: args.output });

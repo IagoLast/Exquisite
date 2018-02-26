@@ -23,6 +23,8 @@ function parseArgs(argv) {
     args.headless = argv.headless || false;
     // Image diff threshold
     args.threshold = argv.threshold || 0.1;
+    // The screenshot will be delayed until this function returns true
+    args.waitForFn = argv.waitForFn || undefined;
 
     return args;
 }

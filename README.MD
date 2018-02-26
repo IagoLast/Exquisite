@@ -42,6 +42,10 @@ Compare a screenshot against a reference image.
  - **params.viewportHeight:** Height of the browser screen. Default: `900`
  - **params.headless:** Use a headless browser. Default: `false`
  - **params.threshold:** Image diff threshold. Default: `0.1`
+ - **params.waitForFn:** The screenshot will be taken only when this function returns true. Default: `undefined`
+    - This can be a `function` or a `string` containing the function code.
+    - When this is parameter is given the delay is ignored.
+
 
 ### exquisite.getReference(params)
 Take a screenshot and save it as a reference image.
@@ -52,6 +56,9 @@ Take a screenshot and save it as a reference image.
  - **params.viewportWidth:** With of the browser screen. Default: `1440`
  - **params.viewportHeight:** Height of the browser screen. Default: `900`
  - **params.headless:** Use a headless browser. Default: `false`
+ - **params.waitForFn:** The screenshot will be taken only when this function returns true. Default: `undefined`
+    - This can be a `function` or a `string` containing the function code.
+    - When this is parameter is given the delay is ignored.
 
 ## Example 
 Get a reference image
@@ -105,10 +112,12 @@ Add the `--reference` flag to take the reference screenshot.
 npm install -g exquisite-sst
 # Generate the reference image for google
 exquisite-sst --reference --url http://www.example.com --output reference.png --delay 200 
-# Compare the reference image against a new screenshot (true)
-exquisite-sst --url http://www.example.com --input reference.png --delay 200 
-# Compare the reference image against a new screenshot (false)
+# Compare the reference image against a new screenshot 
 exquisite-sst --url http://www.google.com --input reference.png 
+# Compare the reference image against a new screenshot waiting 200 ms to take the screenshot
+exquisite-sst --url http://www.example.com --input reference.png --delay 200 
+# Compare the reference image against a new screenshot waiting the background to be red
+exquisite-sst --url http://www.example.com --input reference.png --waitForFn "document.body.style.background === 'red'"
 ```
 
 ## Using cloudinary for debugging.
