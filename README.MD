@@ -23,7 +23,7 @@ where selenium only sees a `canvasElement`. The only way to know if the content 
 Can you spot the differences in those two maps? Exquisite can (in less than 3 seconds!)
 
 ## Instaling
-Exquisite needs `"node": ">7.6.0"`
+Exquisite needs `"node": ">=6.9.0"`
 
 Install the app as a regular node module, using `yarn` or `npm install`.
 
