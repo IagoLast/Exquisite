@@ -45,6 +45,10 @@ Compare a screenshot against a reference image.
  - **params.waitForFn:** The screenshot will be taken only when this function returns true. Default: `undefined`
     - This can be a `function` or a `string` containing the function code.
     - When this is parameter is given the delay is ignored.
+- **params.consoleFn:** The output of the chrome console will be redirected to this funcion. Default: `undefined`
+    - Callback is called with [consoleMessages](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-consolemessage)
+    - This can only be a `function` so it **cannot be used from the command line**
+    
 
 
 ### exquisite.getReference(params)
@@ -59,6 +63,9 @@ Take a screenshot and save it as a reference image.
  - **params.waitForFn:** The screenshot will be taken only when this function returns true. Default: `undefined`
     - This can be a `function` or a `string` containing the function code.
     - When this is parameter is given the delay is ignored.
+- **params.consoleFn:** The output of the chrome console will be redirected to this funcion. Default: `undefined`
+    - Callback is called with [consoleMessages](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-consolemessage)
+    - This can only be a `function` so it **cannot be used from the command line**
 
 ## Example 
 Get a reference image

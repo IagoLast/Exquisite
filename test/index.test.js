@@ -42,4 +42,21 @@ describe('Screenshot tests:', () => {
         };
         return expect(exquisite.test(options)).to.eventually.eql(0)
     });
+
+    it('Should redirect the console to the consoleFn parameter when is passed as an argument', () => {
+        const input = path.resolve(__dirname, `./${REFERENCES_FOLDER}/console.png`);
+        const output = path.resolve(__dirname, `./${REFERENCES_FOLDER}/console_out.png`);
+        const filepath = path.resolve(__dirname, `./test-cases/console.html`);
+        const URL = `file://${filepath}`;
+        const expected = 'CONSOLE_LOG';
+        return new Promise((resolve, reject) => {
+            const options = {
+                consoleFn: msg => {
+                    msg.text() === expected ? resolve() : reject(new Error(`expected '${msg.text()}' to equal '${expected}'`));
+                },
+                input, output, url: URL, threshold: THRESHOLD, headless: HEADLESS, viewportWidth: WIDTH, viewportHeight: HEIGHT
+            };
+            exquisite.test(options);
+        });
+    });
 });

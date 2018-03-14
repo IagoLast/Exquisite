@@ -37,6 +37,10 @@ function _capture(args) {
         page = _resp;
         return page.setViewport({ width: args.viewportWidth, height: args.viewportHeight });
     }).then(function () {
+        if (args.consoleFn) {
+            page.on('console', args.consoleFn);
+        }
+    }).then(function () {
         return page.goto(args.url);
     }).then(function () {
         if (args.waitForFn) {
