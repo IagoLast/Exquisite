@@ -25,6 +25,8 @@ function parseArgs(argv) {
     args.threshold = argv.threshold || 0.1;
     // The screenshot will be delayed until this function returns true
     args.waitForFn = argv.waitForFn || undefined;
+    // Chrome console logs will be redirected to this function
+    args.consoleFn = argv.consoleFn || undefined;
 
     return args;
 }
