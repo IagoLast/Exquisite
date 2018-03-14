@@ -93,11 +93,11 @@ const output = path.resolve(__dirname, 'map.png');
 // Url to take the screenshot from
 const url = 'https://google.com';
 // Take the screenshot and compare it against the reference image.
-exquisite.test({ input, output, url, delay }).then(imagesAreEqual => {
+exquisite.test({ input, output, url, delay }).then(differentPixels => {
     // Delete the screenshot
     fs.unlinkSync(output);
     // Log the result
-    console.log(`Images are ${imagesAreEqual ? 'equal' : 'different'}`);
+    console.log(`Images are ${differentPixels === 0 ? 'equal' : 'different'}`);
 });
 ```
 
@@ -148,11 +148,11 @@ describe('Image comparing', () => {
         const input = path.resolve(__dirname, 'reference/i1.png');
         const output = path.resolve(__dirname, 'reference/i1_out.png');
         const url = 'https://iago-carto.carto.com/builder/fe05bdc5-af40-4227-9944-ba31e3493728/embed';
-        return exquisite.test({ input, output, url, delay }).then(result => {
+        return exquisite.test({ input, output, url, delay }).then(differentPixels => {
              // Delete the taken screenshot
             fs.unlinkSync(output);
             // If the result is not the expected, upload the screenshots and make the test fail
-            if (!result) {
+            if (differentPixels > 0) {
                 cloudinary.uploader.upload(input);
                 cloudinary.uploader.upload(output);
                 throw new Error(`${url}: Screenshot doesn't match!`);

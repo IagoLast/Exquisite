@@ -13,22 +13,22 @@ const HEADLESS = (process.platform === 'linux');
 
 
 describe('Screenshot tests:', () => {
-    it('Should return true when the images are equal', () => {
+    it('Should have 0 different pixels when the images are equal', () => {
         const input = path.resolve(__dirname, `./${REFERENCES_FOLDER}/canvas.png`);
         const output = path.resolve(__dirname, `./${REFERENCES_FOLDER}/canvas_out.png`);
         const filepath = path.resolve(__dirname, `./test-cases/canvas.html`);
         const URL = `file://${filepath}`;
         const options = { input, output, url: URL, threshold: THRESHOLD, headless: HEADLESS, viewportWidth: WIDTH, viewportHeight: HEIGHT };
-        return expect(exquisite.test(options)).to.eventually.be.true;
+        return expect(exquisite.test(options)).to.eventually.eql(0)
     });
 
-    it('Should return false when the images are different', () => {
+    it('Should have at least one different pixel when images are different', () => {
         const input = path.resolve(__dirname, `./${REFERENCES_FOLDER}/invalid.png`);
         const output = path.resolve(__dirname, `./${REFERENCES_FOLDER}/invalid_out.png`);
         const filepath = path.resolve(__dirname, `./test-cases/invalid.html`);
         const URL = `file://${filepath}`;
         const options = { input, output, url: URL, threshold: THRESHOLD, headless: HEADLESS, viewportWidth: WIDTH, viewportHeight: HEIGHT };
-        return expect(exquisite.test(options)).to.eventually.be.false;
+        return expect(exquisite.test(options)).to.eventually.be.at.least(1);
     });
 
     it('Should wait for a condition to be true when waitForFn is passed as an argument', () => {
@@ -40,6 +40,6 @@ describe('Screenshot tests:', () => {
             waitForFn: () => document.body.style.background = 'red', // eslint-disable-line
             input, output, url: URL, threshold: THRESHOLD, headless: HEADLESS, viewportWidth: WIDTH, viewportHeight: HEIGHT
         };
-        return expect(exquisite.test(options)).to.eventually.be.true;
+        return expect(exquisite.test(options)).to.eventually.eql(0)
     });
 });
