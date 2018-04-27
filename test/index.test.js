@@ -59,4 +59,26 @@ describe('Screenshot tests:', () => {
             exquisite.test(options);
         });
     });
+
+    it('Should allow hooking page events', () => {
+        const input = path.resolve(__dirname, `./${REFERENCES_FOLDER}/errors.png`);
+        const output = path.resolve(__dirname, `./${REFERENCES_FOLDER}/errors_out.png`);
+        const filepath = path.resolve(__dirname, `./test-cases/errors.html`);
+        const URL = `file://${filepath}`;
+        return new Promise((resolve, reject) => {
+            const options = {
+                pageEvents: {
+                    pageerror: err => {
+                        if (err.message.match(/Top level error/)) {
+                            return resolve();
+                        }
+                        reject(new Error(`Unexepected error message '${err.message}'`));
+                    }
+                },
+
+                input, output, url: URL, threshold: THRESHOLD, headless: HEADLESS, viewportWidth: WIDTH, viewportHeight: HEIGHT
+            };
+            exquisite.test(options);
+        });
+    });
 });

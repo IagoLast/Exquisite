@@ -37,6 +37,9 @@ function _capture(args) {
         page = _resp;
         return page.setViewport({ width: args.viewportWidth, height: args.viewportHeight });
     }).then(function () {
+        Object.keys(args.pageEvents).forEach(eventName => {
+            page.on(eventName, args.pageEvents[eventName]);
+        });
         if (args.consoleFn) {
             page.on('console', args.consoleFn);
         }
