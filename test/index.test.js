@@ -37,7 +37,7 @@ describe('Screenshot tests:', () => {
         const filepath = path.resolve(__dirname, `./test-cases/waitForFn.html`);
         const URL = `file://${filepath}`;
         const options = {
-            waitForFn: () => document.body.style.background = 'red', // eslint-disable-line
+            waitForFn: () => document.body.style.background == 'red', // eslint-disable-line
             input, output, url: URL, threshold: THRESHOLD, headless: HEADLESS, viewportWidth: WIDTH, viewportHeight: HEIGHT
         };
         return expect(exquisite.test(options)).to.eventually.eql(0)
