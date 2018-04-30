@@ -27,6 +27,24 @@ function parseArgs(argv) {
     args.waitForFn = argv.waitForFn || undefined;
     // Chrome console logs will be redirected to this function
     args.consoleFn = argv.consoleFn || undefined;
+    // What events to listen in page object
+    args.pageEvents = Object.assign({
+        // 'close',
+        // 'console',
+        // 'dialog',
+        // 'domcontentloaded',
+        'error': console.error,
+        // 'frameattached',
+        // 'framedetached',
+        // 'framenavigated',
+        // 'load',
+        // 'metrics',
+        'pageerror': console.error,
+        // 'request',
+        'requestfailed': console.error,
+        // 'requestfinished',
+        // 'response',
+    }, argv.pageEvents);
 
     return args;
 }
