@@ -48,7 +48,15 @@ Compare a screenshot against a reference image.
 - **params.consoleFn:** The output of the chrome console will be redirected to this funcion. Default: `undefined`
     - Callback is called with [consoleMessages](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-consolemessage)
     - This can only be a `function` so it **cannot be used from the command line**
-    
+- **params.pageEvents:** You can add handlers for [events Puppeteer's Page object](https://github.com/GoogleChrome/puppeteer/blob/v1.3.0/docs/api.md#class-page). This is useful to detect errors within the page. Default:
+    ```js
+    {
+        error: console.error,
+        pageerror: console.error,
+        requestfailed: console.error,
+    }
+    ```
+
 
 
 ### exquisite.getReference(params)
@@ -66,6 +74,15 @@ Take a screenshot and save it as a reference image.
 - **params.consoleFn:** The output of the chrome console will be redirected to this funcion. Default: `undefined`
     - Callback is called with [consoleMessages](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-consolemessage)
     - This can only be a `function` so it **cannot be used from the command line**
+- **params.pageEvents:** You can add handlers for [events Puppeteer's Page object](https://github.com/GoogleChrome/puppeteer/blob/v1.3.0/docs/api.md#class-page). This is useful to detect errors within the page. Default:
+    ```js
+    {
+        error: console.error,
+        pageerror: console.error,
+        requestfailed: console.error,
+    }
+    ```
+
 
 ## Example 
 Get a reference image
