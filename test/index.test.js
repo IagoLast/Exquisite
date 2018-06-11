@@ -81,4 +81,26 @@ describe('Screenshot tests:', () => {
             exquisite.test(options);
         });
     });
+
+    it('Should log network errors', () => {
+        const input = path.resolve(__dirname, `./${REFERENCES_FOLDER}/network-errors.png`);
+        const output = path.resolve(__dirname, `./${REFERENCES_FOLDER}/network-errors_out.png`);
+        const filepath = path.resolve(__dirname, `./test-cases/network-errors.html`);
+        const URL = `file://${filepath}`;
+        return new Promise((resolve, reject) => {
+            const options = {
+                pageEvents: {
+                    requestfailed: request => {
+                        if (request.failure().errorText === 'net::ERR_FILE_NOT_FOUND') {
+                            return resolve();
+                        }
+                        reject();
+                    }
+                },
+
+                input, output, url: URL, threshold: THRESHOLD, headless: HEADLESS, viewportWidth: WIDTH, viewportHeight: HEIGHT
+            };
+            exquisite.test(options);
+        });
+    });
 });
