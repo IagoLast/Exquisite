@@ -32,6 +32,6 @@
   "scripts": {
     "lint": "eslint .",
     "test:acceptance:prepare": "node test/get-references.js ",
-    "test": "mocha test/index.test.js --timeout 15000"
+    "test": "mocha test/*.test.js --timeout 15000"
   }
 }

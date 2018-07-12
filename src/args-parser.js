@@ -7,6 +7,8 @@ function parseArgs(argv) {
     if (!argv.url) {
         throw new Error('url parameter was not provided.');
     }
+    // Browser to re-use
+    args.browser = argv.browser;
     // Url where to take the screenshot from
     args.url = argv.url;
     // Emulated screen width
