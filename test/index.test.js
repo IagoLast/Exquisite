@@ -81,4 +81,15 @@ describe('Screenshot tests:', () => {
             exquisite.test(options);
         });
     });
+
+    it('Should generate the reference without errors', () => {
+        const input = path.resolve(__dirname, `./${REFERENCES_FOLDER}/invalid.png`);
+        const output = path.resolve(__dirname, `./${REFERENCES_FOLDER}/invalid_out.png`);
+        const filepath = path.resolve(__dirname, `./test-cases/invalid.html`);
+        const URL = `file://${filepath}`;
+        const options = { input, output, url: URL, threshold: THRESHOLD, headless: HEADLESS, viewportWidth: WIDTH, viewportHeight: HEIGHT };
+        return expect(() => {
+          exquisite.getReference(options);
+        }).not.throw();
+    });
 });
