@@ -26,8 +26,8 @@ describe('Browser acquire', () => {
     });
 
     it('Should have 0 different pixels when the images are equal', () => {
-        const input = path.resolve(__dirname, `./${REFERENCES_FOLDER}/canvas.png`);
-        const output = path.resolve(__dirname, `./${REFERENCES_FOLDER}/canvas_out.png`);
+        const input = path.resolve(__dirname, `./${REFERENCES_FOLDER}/canvas_browser.png`);
+        const output = path.resolve(__dirname, `./${REFERENCES_FOLDER}/canvas_browser_out.png`);
         const filepath = path.resolve(__dirname, `./test-cases/canvas.html`);
         const URL = `file://${filepath}`;
         const options = {

@@ -20,7 +20,10 @@ function test(args) {
  * @return A string containing the path to the generated screenshot.
  */
 function getReference(args) {
-    return _capture(args);
+  if (args.browser) {
+      return _browserCapture(args);
+  }
+  return _newCapture(args);
 }
 
 function browser(headless) {
