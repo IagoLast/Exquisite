@@ -92,4 +92,22 @@ describe('Screenshot tests:', () => {
           exquisite.getReference(options);
         }).not.throw();
     });
+
+    it('Should honor the deviceScaleFactor option', () => {
+        const input = path.resolve(__dirname, `./${REFERENCES_FOLDER}/canvas@2x.png`);
+        const output = path.resolve(__dirname, `./${REFERENCES_FOLDER}/canvas@2x_out.png`);
+        const filepath = path.resolve(__dirname, `./test-cases/canvas.html`);
+        const URL = `file://${filepath}`;
+        const options = {
+            input,
+            output,
+            url: URL,
+            threshold: THRESHOLD,
+            headless: HEADLESS,
+            viewportWidth: WIDTH,
+            viewportHeight: HEIGHT,
+            deviceScaleFactor: 2
+        };
+        return expect(exquisite.test(options)).to.eventually.eql(0)
+    });
 });

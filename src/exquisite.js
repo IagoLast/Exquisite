@@ -81,7 +81,12 @@ function _newCapture(args) {
 }
 
 function _capture(page, args) {
-    return page.setViewport({ width: args.viewportWidth, height: args.viewportHeight }).then(function () {
+    const viewport = {
+        width: args.viewportWidth,
+        height: args.viewportHeight,
+        deviceScaleFactor: args.deviceScaleFactor
+    };
+    return page.setViewport(viewport).then(function () {
         Object.keys(args.pageEvents).forEach(eventName => {
             page.on(eventName, args.pageEvents[eventName]);
         });

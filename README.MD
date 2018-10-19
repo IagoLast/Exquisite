@@ -40,6 +40,7 @@ Compare a screenshot against a reference image.
  - **params.delay:** Milliseconds to wait between the page-loaded event and the screenshot. Default: `0`
  - **params.viewportWidth:** With of the browser screen. Default: `1440`
  - **params.viewportHeight:** Height of the browser screen. Default: `900`
+ - **params.deviceScaleFactor:** Specify device pixel ratio. Default: `1`
  - **params.headless:** Use a headless browser. Default: `false`
  - **params.threshold:** Image diff threshold. Default: `0.1`
  - **params.waitForFn:** The screenshot will be taken only when this function returns true. Default: `undefined`
