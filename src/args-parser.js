@@ -15,6 +15,8 @@ function parseArgs(argv) {
     args.viewportWidth = argv.viewportWidth || 1440;
     // Emulated screen height
     args.viewportHeight = argv.viewportHeight || 900;
+    // Emulate the device pixel ratio
+    args.deviceScaleFactor = argv.deviceScaleFactor || 1;
     // Path of the reference image
     args.input = argv.input || 'original.png';
     // Name of the saved screenshot
