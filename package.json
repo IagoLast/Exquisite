@@ -12,6 +12,10 @@
   "bin": "./bin/exquisite.js",
   "author": "@iagolast",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/IagoLast/Exquisite"
+  },
   "engines": {
     "node": ">=6.9.0"
   },
